@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-color-deployment-green
+  labels:
+    app: web-color
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: web-color
+  template:
+    metadata:
+      name: web-color-green
+      labels:
+        app: web-color
+    spec:
+      containers:
+        - name: simple-webapp-color
+          image: mmumshad/simple-webapp-color:local
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: APP_COLOR
+              value: green
